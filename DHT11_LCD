@@ -1,0 +1,43 @@
+#include <LiquidCrystal.h>
+#include <DHT.h>
+#define DHTPIN 13    // Digital pin connected to the DHT sensor
+#define DHTTYPE    DHT11     // DHT 22 (AM2302)
+DHT dht(DHTPIN, DHTTYPE);
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);  // RS, E, D4, D5, D6, D7
+
+void setup() {
+  Serial.begin(9600);
+  dht.begin();
+
+  lcd.begin(16, 2);  
+  lcd.clear();      
+  lcd.print("Reading..."); 
+}
+void loop()
+ 
+  {
+  delay(2000);
+  float t = dht.readTemperature();
+  float h = dht.readHumidity();
+  if (isnan(t) || isnan(h)) {
+    lcd.clear();
+    lcd.print("Failed to read from DHT sensor!");
+    Serial.println("Failed to read from DHT sensor!");
+    return;
+  }
+  lcd.clear(); 
+  lcd.setCursor(0, 0); 
+  lcd.print("Temp : ");
+  lcd.print(t); 
+  lcd.println(" deg  ");
+
+  lcd.setCursor(0, 1);
+  lcd.print("Hum : ");
+  lcd.print(h);  
+  lcd.print(" %");
+
+  Serial.print("temp : ");
+  Serial.println(t);
+}
+
+ 
