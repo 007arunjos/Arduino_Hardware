@@ -1,0 +1,25 @@
+//A LDR is used to control a LED 
+
+int volRead = A0;
+int led1 = 7;
+void setup() {
+Serial.begin(9600);
+pinMode(led1,OUTPUT);
+digitalWrite(led1,LOW);
+}
+
+void loop() {
+ int idrpin=analogRead(volRead);
+ if (idrpin <= 100)
+ {
+ digitalWrite(led1,HIGH);
+ Serial.println("HIGH");
+ }
+ else {
+  digitalWrite(led1,LOW);
+  Serial.println("LOW");
+ }
+
+ Serial.println(idrpin);
+ delay(2000);
+}
